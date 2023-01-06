@@ -1,28 +1,35 @@
 var datos = [];
 
 async function traerDatos(){
+
+    try{
+        const resultado = await fetch("https://mindicador.cl/api");
+        datos = await resultado.json();
+       console.log(datos)
+   
+       var datitos = Object.entries(datos);
+       datitos.splice(0,3);
+       console.log(datitos);
+   
+       const traerCodigo = () => {
+           let codigo = document.querySelector("#moneda")
+           codigo.innerHTML = ''
+       
+           datitos.forEach(moneda => {
+               var dato = moneda[1];
+               codigo.innerHTML += `
+                       <option value="${dato.codigo}">${dato.codigo}</option>
+               `
+           })
+       }
+       
+       traerCodigo();
+       }
+       catch{
+        console.log("Errorcito")
+       }
  
-    const resultado = await fetch("https://mindicador.cl/api");
-     datos = await resultado.json();
-    console.log(datos)
-
-    var datitos = Object.entries(datos);
-    datitos.splice(0,3);
-    console.log(datitos);
-
-    const traerCodigo = () => {
-        let codigo = document.querySelector("#moneda")
-        codigo.innerHTML = ''
-    
-        datitos.forEach(moneda => {
-            var dato = moneda[1];
-            codigo.innerHTML += `
-                    <option value="${dato.codigo}">${dato.codigo}</option>
-            `
-        })
-    }
-    
-    traerCodigo();
+  
 }
 
 traerDatos();
